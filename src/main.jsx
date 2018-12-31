@@ -1,9 +1,9 @@
-import React from "react";
-import CreateCanvas from "./createCanvas.jsx";
-import "./style.scss";
-import ReactDOM from "react-dom";
+import React from 'react';
+import CreateCanvas from './createCanvas.jsx';
+import style from './style.scss';
+import ReactDOM from 'react-dom';
 
-class Mountain extends React.Component {
+class PerlinNoiseInPolarCoordinate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,12 +12,13 @@ class Mountain extends React.Component {
     };
   }
   componentDidMount() {
-    document.body.style.overflow = "hidden";
+    style.use();
     this.tempHandleResize = this.handleResize.bind(this);
-    window.addEventListener("resize", this.tempHandleResize);
+    window.addEventListener('resize', this.tempHandleResize);
   }
   componentWillUnmount() {
-    window.removeEventListener("resize", this.tempHandleResize);
+    style.unuse();
+    window.removeEventListener('resize', this.tempHandleResize);
   }
   handleResize(e) {
     const width = e.target.innerWidth;
@@ -30,29 +31,18 @@ class Mountain extends React.Component {
   }
   render() {
     return (
-      <React.Fragment>
-        <CreateCanvas
-          ref="createCanvas"
-          style={{
-            width: this.state.width,
-            height: this.state.height
-          }}
-        />
-        <p
-          id="title"
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            left: "20px",
-            fontSize: "100px",
-            margin: 0
-          }}
-        >
-          {location.hash.split("/")[1]}
-        </p>
-      </React.Fragment>
+      <CreateCanvas
+        ref='createCanvas'
+        style={{
+          width: this.state.width,
+          height: this.state.height
+        }}
+      />
     );
   }
 }
 
-ReactDOM.render(<Mountain />, document.getElementById("root"));
+ReactDOM.render(
+  <PerlinNoiseInPolarCoordinate />,
+  document.getElementById('root')
+);

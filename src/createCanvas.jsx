@@ -1,6 +1,6 @@
-import React from "react";
-import vert from "./vertexShader.glsl";
-import frag from "./fragmentShader.glsl";
+import React from 'react';
+import vert from './vertexShader.glsl';
+import frag from './fragmentShader.glsl';
 const webGLStart = (canvas, gl, vs, fs) => {
   const create_program = (vs, fs) => {
     const program = gl.createProgram();
@@ -55,8 +55,8 @@ const webGLStart = (canvas, gl, vs, fs) => {
     create_shader(fs, gl.FRAGMENT_SHADER)
   );
   const uniLocation = [];
-  uniLocation[0] = gl.getUniformLocation(prg, "time");
-  uniLocation[1] = gl.getUniformLocation(prg, "resolution");
+  uniLocation[0] = gl.getUniformLocation(prg, 'time');
+  uniLocation[1] = gl.getUniformLocation(prg, 'resolution');
 
   const position = [
     -1.0,
@@ -77,7 +77,7 @@ const webGLStart = (canvas, gl, vs, fs) => {
   const attStride = [];
 
   const vPosition = create_vbo(position);
-  attLocation[0] = gl.getAttribLocation(prg, "position");
+  attLocation[0] = gl.getAttribLocation(prg, 'position');
   attStride[0] = 3;
 
   const vIndex = create_ibo(index);
@@ -88,7 +88,6 @@ const webGLStart = (canvas, gl, vs, fs) => {
   const startTime = new Date().getTime();
   const render = () => {
     let time = (new Date().getTime() - startTime) * 0.001;
-    time = time % 3;
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.uniform1f(uniLocation[0], time);
     gl.uniform2fv(uniLocation[1], [canvas.width, canvas.height]);
@@ -99,7 +98,7 @@ const webGLStart = (canvas, gl, vs, fs) => {
   return render;
 };
 
-class CreateCanvas extends React.Component {
+export default class CreateCanvas extends React.Component {
   constructor(props) {
     super(props);
     this.requestId = 0;
@@ -113,12 +112,12 @@ class CreateCanvas extends React.Component {
   updateCanvas() {
     this.canvas.width = this.props.style.width;
     this.canvas.height = this.props.style.height;
-    this.gl = this.canvas.getContext("webgl");
+    this.gl = this.canvas.getContext('webgl');
     const render = webGLStart(this.canvas, this.gl, vert(), frag());
     const loop = () => {
       render();
       this.requestId = requestAnimationFrame(loop);
-    }
+    };
     loop();
   }
   handleResize(w, h) {
@@ -137,4 +136,3 @@ class CreateCanvas extends React.Component {
     );
   }
 }
-export default CreateCanvas;
